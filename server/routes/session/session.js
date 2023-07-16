@@ -22,25 +22,25 @@ function generateToken(res, email,id){
 
 module.exports = function (app){
 
-    app.post('/signup', async function (req,res){
+    app.post('/signup', async function (req, res) {
         let userData = req.body;
         let user = await User.findOne({ email: userData.email });
-        if(!user){
-            let pw = SHA256(userData.password);
-            userData.password = pw;
-            let user = new User(userData);
-            user.save(function (err){
-                if(err){
-                    res.status(422).send("data are not correct!");
-                }else{
-                    generateToken(res,userData.email, user._id);
-                    res.status(201).send("successfully signed up!");
-                }
-            });
-        }else{
-            res.status(401).send("user already exists");
+        if (!user) {
+          let pw = SHA256(userData.password);
+          userData.password = pw;
+          let user = new User(userData);
+          try {
+            await user.save();
+            generateToken(res, userData.email, user._id);
+            res.status(201).send("successfully signed up!");
+          } catch (error) {
+            res.status(422).send("data are not correct!");
+          }
+        } else {
+          res.status(401).send("user already exists");
         }
-    });
+      });
+      
 
 
     app.post('/login', async function(req,res){

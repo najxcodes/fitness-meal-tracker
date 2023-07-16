@@ -14,7 +14,7 @@ const App = () => {
       <Navbar />
       <Outlet /> {/* Add the Outlet component here */}
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/foods" element={<FoodList />} />

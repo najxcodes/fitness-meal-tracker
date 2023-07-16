@@ -57,7 +57,7 @@ const Registration = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('/signup', registrationData);
+      const response = await axios.post('http://localhost:3020/signup', registrationData);
       console.log(response.data); // Handle the response data as needed
     } catch (error) {
       console.error('Registration failed:', error);
@@ -117,19 +117,19 @@ const Registration = () => {
           onChange={handleInputChange}
           fullWidth
         />
+         <TextField
+          label="Password"
+          name="password"
+          type="password"
+          value={registrationData.password}
+          onChange={handleInputChange}
+          fullWidth
+        />
         <TextField
           label="Email"
           name="email"
           type="email"
           value={registrationData.email}
-          onChange={handleInputChange}
-          fullWidth
-        />
-        <TextField
-          label="Password"
-          name="password"
-          type="password"
-          value={registrationData.password}
           onChange={handleInputChange}
           fullWidth
         />

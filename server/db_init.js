@@ -3,6 +3,7 @@ const dayModel = require('./models/day');
 const exerciseModel = require('./models/exercise');
 const foodModel = require('./models/food');
 const profileModel = require('./models/profile');
+const profileUser = require('./models/user');
 
 // Additional schema imports if needed
 
@@ -12,6 +13,7 @@ const models = {
   Exercise: exerciseModel,
   Food: foodModel,
   Profile: profileModel,
+  Users : profileUser
   // Additional models if needed
 };
 
