@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard';
 import FoodList from './components/FoodList';
 import ExerciseList from './components/ExerciseList';
 import DayLog from './components/DayLog';
+import Profile from './components/Profile';
 
 const App = () => {
   return (
@@ -17,9 +18,11 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/foods" element={<FoodList />} />
+        <Route path="/food" element={<FoodList />} />
         <Route path="/exercises" element={<ExerciseList />} />
         <Route path="/daylog" element={<DayLog />} />
+        <Route path="/profile" element={<Profile />} />
+
       </Routes>
     </Router>
   );

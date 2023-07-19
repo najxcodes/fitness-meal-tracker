@@ -11,10 +11,16 @@ module.exports = function(app){
 
     app.post('/fitness/food/', verifyToken,function (req,res){
         try{
+            console.log(1);
             let foodData = req.body;
+            console.log(2);
 
             let food = new Food(foodData);
+            console.log(3);
+
             food.save(function (err){
+                console.log(4);
+
                 if(err){
                     res.status(422).send("Data are not correct!");
                 }else{
