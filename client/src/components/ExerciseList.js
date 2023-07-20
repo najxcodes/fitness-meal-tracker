@@ -1,82 +1,174 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
+  Container,
+  Typography,
   TextField,
+  Button,
+  Grid,
+  Box,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+  IconButton,
 } from '@mui/material';
-import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import axios from 'axios';
 
 const ExerciseList = () => {
-  const [exercises, setExercises] = useState([]); // Replace with your actual exercise data
+  const [exercises, setExercises] = useState([]);
+  const [newExercise, setNewExercise] = useState({
+    name: '',
+    duration: 0,
+    caloriesBurned: 0,
+  });
 
-  const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [editedExercise, setEditedExercise] = useState('');
+  useEffect(() => {
+    fetchExercises();
+  }, []);
 
-  const handleDeleteExercise = (exerciseId) => {
-    // Handle delete exercise logic
+  const fetchExercises = async () => {
+    try {
+      const response = await axios.get('http://localhost:3015/fitness/exercises/');
+      setExercises(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleOpenEditDialog = (exercise) => {
-    setEditedExercise(exercise);
-    setEditDialogOpen(true);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setNewExercise((prevExercise) => ({
+      ...prevExercise,
+      [name]: value,
+    }));
   };
 
-  const handleCloseEditDialog = () => {
-    setEditDialogOpen(false);
+  const handleAddExercise = async () => {
+    try {
+      await axios.post('http://localhost:3015/fitness/exercise', newExercise, { withCredentials: true });
+      fetchExercises();
+      setNewExercise({
+        name: '',
+        duration: 0,
+        caloriesBurned: 0,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleSaveEditedExercise = () => {
-    // Handle save edited exercise logic
-    handleCloseEditDialog();
+  const handleDeleteExercise = async (exerciseId) => {
+    try {
+      await axios.delete(`http://localhost:3015/fitness/exercise/`);
+      fetchExercises();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleEditExercise = async (exerciseId, updatedExerciseData) => {
+    try {
+      await axios.put(`http://localhost:3015/fitness/exercise/${exerciseId}`, updatedExerciseData);
+      fetchExercises();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <>
-      <List>
-        {exercises.map((exercise) => (
-          <ListItem key={exercise.id}>
-            <ListItemText primary={exercise.name} />
-            <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="edit" onClick={() => handleOpenEditDialog(exercise)}>
-                <EditIcon />
-              </IconButton>
-              <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteExercise(exercise.id)}>
-                <DeleteIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
-      </List>
+    <Container maxWidth="md" style={{ marginTop: '5rem' }}>
+      <Typography variant="h4" gutterBottom align="center">
+        Exercise Page
+      </Typography>
 
-      <Dialog open={editDialogOpen} onClose={handleCloseEditDialog}>
-        <DialogTitle>Edit Exercise</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="Exercise Name"
-            value={editedExercise.name}
-            onChange={(e) => setEditedExercise({ ...editedExercise, name: e.target.value })}
-            fullWidth
-          />
-          {/* Add more input fields for other exercise properties */}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseEditDialog} color="secondary">
-            Cancel
-          </Button>
-          <Button onClick={handleSaveEditedExercise} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+      <Box mt={4} mb={2}>
+        <Typography variant="h6" gutterBottom>
+          Add Exercise
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              label="Exercise Name"
+              name="name"
+              value={newExercise.name}
+              onChange={handleInputChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              label="Duration (minutes)"
+              name="duration"
+              type="number"
+              value={newExercise.duration}
+              onChange={handleInputChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              label="Calories Burned"
+              name="caloriesBurned"
+              type="number"
+              value={newExercise.caloriesBurned}
+              onChange={handleInputChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" onClick={handleAddExercise}>
+              Add Exercise
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Box mt={4}>
+        <Typography variant="h6" gutterBottom>
+          Exercise List
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Duration (minutes)</TableCell>
+                <TableCell>Calories Burned</TableCell>
+                <TableCell>Action</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {exercises.map((exercise) => (
+                <TableRow key={exercise._id}>
+                  <TableCell>{exercise.name}</TableCell>
+                  <TableCell>{exercise.duration}</TableCell>
+                  <TableCell>{exercise.caloriesBurned}</TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleEditExercise(exercise._id)}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      color="secondary"
+                      onClick={() => handleDeleteExercise(exercise._id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    </Container>
   );
 };
 

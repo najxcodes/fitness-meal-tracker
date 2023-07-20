@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const dayModel = require('./models/day');
-const exerciseModel = require('./models/exercise');
-const foodModel = require('./models/food');
-const profileModel = require('./models/profile');
-const profileUser = require('./models/user');
+const dayModel = require('./models/fitness/day');
+const exerciseModel = require('./models/fitness/exercise');
+const foodModel = require('./models/fitness/food');
+const profileModel = require('./models/fitness/profile');
+const profileUser = require('./models/fitness/user');
 
 // Additional schema imports if needed
 

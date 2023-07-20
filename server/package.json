@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js fitness-meal-tracker ",
+    "start": "node index.js fitness",
     "server": "nodemon index.js fitness-meal-tracker",
     "client": "npm start --prefix ../client",
     "dev": "concurrently \"npm run server fitness-meal-tracker\" \"npm run client\""

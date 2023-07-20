@@ -1,10 +1,10 @@
-const Day = require('../models/fitness/day');
-const Exercise = require('../models/fitness/exercise');
-const Food = require('../models/fitness/food');
-const Profile = require('../models/fitness/profile');
-const User = require('../models/fitness/user');
+const Day = require('../../models/fitness/day');
+const Exercise = require('../../models/fitness/exercise');
+const Food = require('../../models/fitness/food');
+const Profile = require('../../models/fitness/profile');
+const User = require('../../models/fitness/user');
 
-const verifyToken = require('./session/verifyToken');
+const verifyToken = require('../session/verifyToken');
 
 module.exports = function(app){
 

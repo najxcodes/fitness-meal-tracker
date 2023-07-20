@@ -6,7 +6,7 @@ import Registration from './components/Registration';
 import Dashboard from './components/Dashboard';
 import FoodList from './components/FoodList';
 import ExerciseList from './components/ExerciseList';
-import DayLog from './components/DayLog';
+import DayPage from './components/DayPage';
 import Profile from './components/Profile';
 
 const App = () => {
@@ -20,7 +20,7 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/food" element={<FoodList />} />
         <Route path="/exercises" element={<ExerciseList />} />
-        <Route path="/daylog" element={<DayLog />} />
+        <Route path="/day" element={<DayPage />} />
         <Route path="/profile" element={<Profile />} />
 
       </Routes>

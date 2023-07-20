@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, TextField, Button } from '@mui/material'
 import { styled } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie'; // Import the js-cookie library
 
 import backgroundImage from '../assets/images/nature_green.jpg';
 
@@ -67,7 +68,14 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:3020/login', loginData);
       console.log(response.data);
-      navigate('/exercises');
+      console.log("this is log:", response)
+      if (response.data === 'successfully signed in!') {
+        // const token = Cookies.get(); // Extract the token from the response or wherever it is available
+        // console.log("this is cookies:", token)
+        // Cookies.set('token', token, { expires: 7 }); // Set the token to expire after 7 days (same as your backend token expiry)
+        
+        navigate('/food');
+      }
     } catch (error) {
       if (error.response) {
         if (error.response.status === 401) {

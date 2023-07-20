@@ -102,7 +102,7 @@ const FoodPage = () => {
 
   return (
     <Container maxWidth="md" style={{ marginTop: '5rem' }}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom align="center">
         Food Page
       </Typography>
 
